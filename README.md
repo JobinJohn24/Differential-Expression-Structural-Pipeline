@@ -3,7 +3,7 @@
 ## 🧬 Project Overview
 This project integrates **Genomic Differential Expression** with **Structural Biology** to identify high-quality drug targets in Lung Adenocarcinoma (LUAD).
 
-Standard RNA-seq analysis identifies *which* genes are upregulated in cancer, but not *if* they are viable drug targets. This pipeline bridges that gap by fetching AlphaFold structures for top candidates and analyzing their biophysical stability to filter out "undruggable" false positives.
+Standard RNA-seq analysis identifies which genes are upregulated in cancer, but not if they are viable drug targets. This pipeline bridges that gap by uses AlphaFold structures for top candidates and analyzing their biophysical stability to filter out "undruggable" false positives.
 
 ---
 
@@ -29,7 +29,7 @@ This scatter plot maps gene expression (X-axis) against protein instability (Y-a
 ![Structural Volcano Plot](plots/structural_volcano.png)
 
 ### 2. The Druggability Filter (UpSet Plot)
-This chart visualizes the intersection of our three strict criteria. Out of thousands of differentially expressed genes, only **7** met all requirements for structural druggability.
+This chart visualizes the intersection of our three tiered criteria for a "Goldilocks Target." Out of thousands of differentially expressed genes, only **7** met all requirements for structural druggability.
 
 ![UpSet Plot](plots/upset_consequence.png)
 
