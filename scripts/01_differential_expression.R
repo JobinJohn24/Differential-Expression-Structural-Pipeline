@@ -1,4 +1,3 @@
-# 1. Setup Libraries
 suppressPackageStartupMessages({
   library(tidyverse)
   library(DESeq2)
@@ -41,7 +40,7 @@ dds <- DESeqDataSetFromMatrix(countData = count_matrix,
 dds$condition <- relevel(dds$condition, ref = "Normal")
 dds <- DESeq(dds)
 
-# 6. Filter and Export Results
+# 6. Filter results
 print("Filtering for Significant Genes...")
 res <- results(dds, contrast = c("condition", "Tumor", "Normal"))
 res_df <- as.data.frame(res)
@@ -56,7 +55,6 @@ top_candidates <- res_df %>%
 # Add Gene IDs for the next pipeline stage
 top_candidates$Ensembl_ID <- row.names(top_candidates)
 
-# Save
 output_filename <- "results/phase1_targets.csv"
 write.csv(top_candidates, output_filename, row.names = FALSE)
 
