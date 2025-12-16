@@ -76,3 +76,50 @@ This chart visualizes the intersection of our three tiered criteria for a "Goldi
 │   ├── 04_visualize_results.py
 │   └── 05_upset_analysis.py
 └── README.md
+```
+## ⚙️ Installation
+
+### Setup Instructions
+
+**1. Clone the repository**
+```bash
+1. Clone respository
+git clone [https://github.com/jobinjohn24LUAD_Structural_Pipeline.git](https://github.com/jobinjohn24/LUAD_Structural_Pipeline.git)
+cd LUAD_Structural_Pipeline
+
+2. Install python and R dependencies
+# Install python dependencies
+pip install -r requirements.txt
+
+#Install R dependencies
+install.packages("renv")
+renv::restore()
+
+3. Add the data
+Download TCGA-LUCAD STAR-Counts matrix from the GDC Data Portal
+Rename to raw_counts.tsv
+Place in data/folder
+
+4. Run the pipeline to reproduce the analysis
+# Phase 1: Genomic Analysis (R)
+Rscript scripts/01_differential_expression.R
+
+# Phase 2: Fetch Structures (Python)
+python scripts/02_fetch_structures.py
+
+# Phase 3: Biophysical Analysis (Python)
+python scripts/03_analyze_structures.py
+
+# Phase 4: Visualization (Python)
+python scripts/04_visualize_results.py
+python scripts/05_upset_analysis.py
+
+```
+
+
+
+
+## 📚 References & Acknowledgments
+* **AlphaFold:** Jumper, J., et al. "Highly accurate protein structure prediction with AlphaFold." *Nature* 596, 583–589 (2021).
+* **AlphaFold DB:** Varadi, M., et al. "AlphaFold Protein Structure Database: massively expanding the structural coverage of protein-sequence space with high-accuracy models." *Nucleic Acids Research* 50, D439–D444 (2022).
+* **TCGA Data:** The Cancer Genome Atlas Program (National Cancer Institute).
