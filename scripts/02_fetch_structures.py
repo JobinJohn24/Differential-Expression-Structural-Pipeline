@@ -3,10 +3,10 @@ import requests
 import os
 from tqdm import tqdm
 
-# --- CONFIGURATION ---
+
 INPUT_FILE = "results/phase1_targets.csv"
 OUTPUT_DIR = "data/structures_pdb"
-TARGET_COUNT = 100  # We want 100 valid structures
+TARGET_COUNT = 100  
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -28,7 +28,7 @@ def get_uniprot_id(ensembl_id):
     except:
         return clean_id, None
 
-# --- HELPER 2: Get The REAL AlphaFold URL (No Guessing) ---
+
 def get_alphafold_url(uniprot_id):
     """
     Asks the AlphaFold API for the correct download link.
@@ -37,14 +37,13 @@ def get_alphafold_url(uniprot_id):
     try:
         response = requests.get(api_url, timeout=5)
         data = response.json()
-        # If the API returns a list with data, grab the 'pdbUrl'
         if isinstance(data, list) and len(data) > 0:
             return data[0]['pdbUrl']
     except:
         return None
     return None
 
-# --- MAIN WORKFLOW ---
+
 def main():
     print(f"📂 Reading targets from: {INPUT_FILE}")
     try:
@@ -56,7 +55,6 @@ def main():
     print(f"🚀 Scanning for {TARGET_COUNT} structures using Smart API...")
     
     downloaded = 0
-    # Progress bar tracks FOUND structures now
     pbar = tqdm(total=TARGET_COUNT, unit="pdb")
 
     for index, row in df.iterrows():
