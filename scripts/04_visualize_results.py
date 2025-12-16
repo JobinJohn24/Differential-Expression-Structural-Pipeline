@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 import requests
 from tqdm import tqdm
 
-# --- CONFIGURATION ---
+
 PHASE1_FILE = "results/phase1_targets.csv"       # Expression Data
 PHASE3_FILE = "results/structural_metrics.csv"   # Structural Data
 OUTPUT_PLOT = "plots/structural_volcano.png"
 
-# --- HELPER: BATCH FETCH SYMBOLS ---
+
 def add_symbols_to_expression_data(df):
     """
     We need to match the Ensembl IDs (Phase 1) to the Symbols (Phase 3).
@@ -21,11 +21,11 @@ def add_symbols_to_expression_data(df):
     ids = df['Ensembl_ID'].astype(str).tolist()
     clean_ids = [i.split('.')[0] for i in ids]
     
-    # Batch query MyGene (faster than 1 by 1)
+    # Batch query MyGene
     url = "https://mygene.info/v3/query"
     headers = {'content-type': 'application/x-www-form-urlencoded'}
     params = {
-        'q': ",".join(clean_ids[:1000]), # Limit to top 1000 to be safe
+        'q': ",".join(clean_ids[:1000]), 
         'scopes': 'ensembl.gene',
         'fields': 'symbol',
         'species': 'human'
@@ -34,7 +34,7 @@ def add_symbols_to_expression_data(df):
     response = requests.post(url, data=params, headers=headers)
     data = response.json()
     
-    # Create a lookup dictionary
+    
     id_map = {}
     for item in data:
         if 'symbol' in item:
@@ -46,27 +46,25 @@ def add_symbols_to_expression_data(df):
     
     return df
 
-# --- MAIN WORKFLOW ---
+
 def main():
     print("📊 Loading Datasets...")
     
-    # 1. Load Data
+    
     exp_df = pd.read_csv(PHASE1_FILE)
     struct_df = pd.read_csv(PHASE3_FILE)
     
     print(f"   - Expression Data: {len(exp_df)} rows")
     print(f"   - Structural Data: {len(struct_df)} rows")
 
-    # 2. Add Symbols to Expression Data so we can merge
+    
     exp_df = add_symbols_to_expression_data(exp_df)
     
-    # 3. Merge the datasets
-    # We keep only genes that exist in BOTH lists
     merged_df = pd.merge(struct_df, exp_df, on="Gene_Symbol", how="inner")
     
     print(f"✅ Successfully merged {len(merged_df)} targets for plotting.")
     
-    # 4. Create the "Structural Volcano Plot"     plt.figure(figsize=(10, 8))
+    
     sns.set_style("whitegrid")
     
     # Scatter Plot
@@ -85,12 +83,10 @@ def main():
         alpha=0.8
     )
     
-    # 5. Add Reference Lines
+    
     plt.axhline(y=40, color='red', linestyle='--', label="Unstable (>40)")
     plt.axvline(x=2.0, color='blue', linestyle='--', label="High Expression (>2.0)")
     
-    # 6. Label the Winners (Top Left quadrant: Stable + High Exp)
-    # We label the top 5 most stable
     top_genes = merged_df.sort_values("Instability_Index").head(5)
     for i, row in top_genes.iterrows():
         plt.text(
