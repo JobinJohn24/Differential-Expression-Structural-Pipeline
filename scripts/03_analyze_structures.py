@@ -6,14 +6,13 @@ from Bio.SeqUtils.ProtParam import ProteinAnalysis
 from tqdm import tqdm
 import warnings
 
-# --- CONFIGURATION ---
+
 INPUT_DIR = "data/structures_pdb"
 OUTPUT_FILE = "results/structural_metrics.csv"
 
-# Suppress annoying PDB warnings (common in BioPython)
+
 warnings.filterwarnings('ignore')
 
-# --- HELPER: EXTRACT pLDDT SCORE ---
 def get_avg_plddt(pdb_path):
     """
     AlphaFold hides its confidence score (0-100) in the 'B-factor' column of the PDB file.
@@ -31,10 +30,10 @@ def get_avg_plddt(pdb_path):
                     # The B-factor column holds the pLDDT score
                     plddt_scores.append(atom.get_bfactor())
     
-    # Return the average score for the whole protein
+    
     return np.mean(plddt_scores) if plddt_scores else 0
 
-# --- HELPER: CALCULATE BIOCHEMICAL PROPERTIES ---
+
 def get_biochem_props(pdb_path):
     """
     Extracts the amino acid sequence and calculates Stability & Hydrophobicity.
@@ -59,7 +58,7 @@ def get_biochem_props(pdb_path):
     except:
         instability = 0 # Short sequences fail this test
         
-    # Aromaticity (How many ring structures? often relates to druggability)
+    # Aromaticity (How many ring structures, relates to druggability)
     aromaticity = analyzed_seq.aromaticity()
     
     # Molecular Weight
@@ -67,7 +66,6 @@ def get_biochem_props(pdb_path):
     
     return instability, aromaticity, weight
 
-# --- MAIN WORKFLOW ---
 def main():
     print(f"📂 Analyzing structures in: {INPUT_DIR}")
     
@@ -79,8 +77,7 @@ def main():
     for filename in tqdm(files, unit="protein"):
         file_path = os.path.join(INPUT_DIR, filename)
         
-        # Filename format is usually "SYMBOL_ID.pdb"
-        # We split it to get the Gene Symbol back
+        
         try:
             gene_symbol = filename.split('_')[0]
             uniprot_id = filename.split('_')[1].replace('.pdb', '')
@@ -103,10 +100,10 @@ def main():
             "Molecular_Weight": round(weight, 2)
         })
 
-    # --- EXPORT ---
+   
     df_results = pd.DataFrame(results)
     
-    # Sort by Instability (Most Stable first)
+    
     df_results = df_results.sort_values(by="Instability_Index")
     
     # Save
