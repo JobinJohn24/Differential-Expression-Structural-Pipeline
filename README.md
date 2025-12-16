@@ -34,29 +34,12 @@ This chart visualizes the intersection of our three tiered criteria for a "Goldi
 ![UpSet Plot](plots/upset_consequence.png)
 
 ---
-
-## 🛠 Tech Stack & Pipeline
-
-### Phase 1: Differential Expression (R)
-* **Library:** `DESeq2`, `tidyverse`
-* **Data:** TCGA-LUAD Raw Counts (Tumor vs. Normal).
-* **Output:** List of top 5,000 statistically significant genes.
-
-### Phase 2: Structural Retrieval (Python)
-* **Library:** `requests`, `pandas`
-* **API:** MyGene.info (ID mapping) & AlphaFold EBI Database.
-* **Logic:** Smart fetching of PDB files with version handling and "Junk RNA" filtering.
-
-### Phase 3: Biophysical Analysis (Python)
-* **Library:** `BioPython`
-* **Metrics:**
-    * **pLDDT:** Confidence score extracted from B-factor columns.
-    * **Instability Index:** Calculated based on amino acid dipeptide composition (Guruprasad method).
-
-### Phase 4: Visualization (Python)
-* **Library:** `seaborn`, `matplotlib`, `upsetplot`
-* **Output:** Publication-ready figures merging genomic and structural data.
-
+## 🛠 Tech Stack
+* **Genomics (R):** `DESeq2` (Bioconductor), `tidyverse`
+* **Structural Biology (Python):** `BioPython` (PDB parsing), `AlphaFold DB API`
+* **Data Science:** `pandas`, `numpy`, `requests` (API handling)
+* **Visualization:** `matplotlib`, `seaborn`, `UpSetPlot`
+* **Reproducibility:** `renv` (R), `requirements.txt` (Python)
 ---
 
 ## 📂 Repository Structure
