@@ -67,7 +67,7 @@ This chart visualizes the intersection of our three tiered criteria for a "Goldi
 **1. Clone the repository**
 ```bash
 1. Clone respository
-git clone [https://github.com/jobinjohn24LUAD_Structural_Pipeline.git](https://github.com/jobinjohn24/LUAD_Structural_Pipeline.git)
+git clone [https://github.com/jobinjohn24/LUAD_Structural_Pipeline.git](https://github.com/jobinjohn24/LUAD_Structural_Pipeline.git)
 cd LUAD_Structural_Pipeline
 
 2. Install python and R dependencies
