@@ -3,7 +3,7 @@ suppressPackageStartupMessages({
   library(DESeq2)
 })
 
-# 2. Load Data (Dynamic Selection)
+# 2. Load Data 
 # This allows the script to run on any machine without hard coded paths
 print("Select your COUNTS file (TCGA-LUAD.star_counts.tsv)...")
 counts_file <- file.choose()
@@ -50,7 +50,7 @@ res_df <- as.data.frame(res)
 top_candidates <- res_df %>%
   filter(padj < 0.05 & log2FoldChange > 1.5) %>%
   arrange(padj) %>%
-  head(2000) # Increased limit to ensure ample structural targets
+  head(2000) # Increased limit to ensure structural targets
 
 # Add Gene IDs for the next pipeline stage
 top_candidates$Ensembl_ID <- row.names(top_candidates)
